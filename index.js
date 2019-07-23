@@ -36,7 +36,7 @@ fs.watch(process.env.SCREENLOGS_LOCATION, (type, file) => {
     try {
         stat = fs.statSync(file);
     } catch (e) {
-        console.log('Error while stating', file);
+        console.log('Error while stating', file, e);
         return;
     }
 
