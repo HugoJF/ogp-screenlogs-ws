@@ -49,7 +49,7 @@ fs.watch(SCREENLOGS_LOCATION, (type, file) => {
     let id = match[2];
     let logType = match[1];
 
-    let lastRead = getLastReadSize(id, logType);
+    let lastRead = getLastReadSize(id, logType, newSize);
 
     if (newSize !== lastRead) {
         fs.createReadStream(SCREENLOGS_LOCATION + file, {start: lastRead})
@@ -62,11 +62,11 @@ fs.watch(SCREENLOGS_LOCATION, (type, file) => {
     }
 });
 
-function getLastReadSize(id, logType) {
+function getLastReadSize(id, logType, defaultValue) {
     if (!trackings[id])
-        return 0;
+        return defaultValue;
     if (!trackings[id][logType])
-        return 0;
+        return defaultValue;
 
     return trackings[id][logType]['lastRead'];
 }
