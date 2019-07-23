@@ -2,6 +2,8 @@ const fs = require('fs');
 const server = require('http').createServer();
 const io = require('socket.io')(server);
 
+require('dotenv').config();
+
 /*
  * Room names
  */
@@ -29,7 +31,7 @@ server.listen(3000, () => {
 
 let trackings = {};
 
-fs.watch('.', (type, file) => {
+fs.watch(process.env.SCREENLOGS_LOCATION, (type, file) => {
     let stat = undefined;
     try {
         stat = fs.statSync(file);

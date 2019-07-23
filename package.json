@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^8.0.0",
     "express": "^4.17.1",
     "socket.io": "^2.2.0",
     "stringstream": "^1.0.0",
