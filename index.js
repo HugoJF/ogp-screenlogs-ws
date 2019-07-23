@@ -4,6 +4,8 @@ const io = require('socket.io')(server);
 
 require('dotenv').config();
 
+const SCREENLOGS_LOCATION = process.env.SCREENLOGS_LOCATION;
+
 /*
  * Room names
  */
@@ -31,10 +33,10 @@ server.listen(3000, () => {
 
 let trackings = {};
 
-fs.watch(process.env.SCREENLOGS_LOCATION, (type, file) => {
+fs.watch(SCREENLOGS_LOCATION, (type, file) => {
     let stat = undefined;
     try {
-        stat = fs.statSync(file);
+        stat = fs.statSync(SCREENLOGS_LOCATION + file);
     } catch (e) {
         console.log('Error while stating', file, e);
         return;
@@ -50,7 +52,7 @@ fs.watch(process.env.SCREENLOGS_LOCATION, (type, file) => {
     let lastRead = getLastReadSize(id, logType);
 
     if (newSize !== lastRead) {
-        fs.createReadStream(file, {start: lastRead})
+        fs.createReadStream(SCREENLOGS_LOCATION + file, {start: lastRead})
             .on('data', (data) => {
                 console.log('Sending', data.toString(), 'from', id, 'event type:', logType.toLowerCase());
                 io.to(getHomeRoom(id)).emit(logType.toLowerCase(), data.toString());
